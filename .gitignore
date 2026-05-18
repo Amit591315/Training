@@ -26,5 +26,7 @@ build/
 dist/
 *.egg-info/
 
-# ... existing content ...
-
+# MLflow runtime files (contain absolute local paths)
+mlflow.db
+mlflow.db-shm
+mlflow.db-wal
