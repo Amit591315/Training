@@ -1,0 +1,6 @@
+outs:
+- md5: fa806314f8c06aea2200bfa1c45843cd
+  size: 68599
+  isexec: true
+  hash: md5
+  path: defects_data.csv

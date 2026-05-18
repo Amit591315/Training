@@ -32,3 +32,4 @@ checkpoints/
 mlruns/
 outputs/
 wandb/
+/defects_data.csv
