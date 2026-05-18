@@ -1,0 +1,14 @@
+* text=auto eol=lf
+
+# Common binary assets
+*.gif binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.png binary
+
+# Common model artifacts
+*.joblib binary
+*.pkl binary
+*.pt binary
+*.pth binary

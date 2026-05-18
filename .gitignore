@@ -1,0 +1,34 @@
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.vscode/
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Local environment files
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+
+# Training and experiment outputs
+artifacts/
+checkpoints/
+mlruns/
+outputs/
+wandb/
