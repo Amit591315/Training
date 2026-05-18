@@ -1,3 +1,0 @@
-best_cost_model.pkl
-best_sev_model.pkl
-label_encoders.pkl

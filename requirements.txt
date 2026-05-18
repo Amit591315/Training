@@ -1,0 +1,17 @@
+# API serving
+fastapi
+uvicorn
+pydantic
+
+# Data and ML
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+
+# Experiment tracking
+mlflow
+
+# Data versioning workflow
+dvc

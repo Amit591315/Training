@@ -215,6 +215,38 @@ Main experiment name used by the script:
 
 - `defect_prediction_experiment`
 
+## Docker Setup
+
+This project includes container support for:
+
+- FastAPI service (`api`)
+- MLflow UI service (`mlflow`)
+
+### Build and Run (Docker Compose)
+
+```bash
+docker compose up --build
+```
+
+Available endpoints after startup:
+
+- API docs: `http://localhost:8000/docs`
+- API health: `http://localhost:8000/health`
+- MLflow UI: `http://localhost:5000`
+
+### Run Only API with Docker
+
+```bash
+docker build -t defects-api .
+docker run --rm -p 8000:8000 defects-api
+```
+
+### Stop Containers
+
+```bash
+docker compose down
+```
+
 ## Documentation Update Rule
 
 Keep this README updated whenever there is a project change, especially for:
@@ -251,3 +283,6 @@ If a change impacts how to run, reproduce, or serve the project, document it her
 	- `precision_weighted`, `recall_weighted`, `f1_weighted`
 	- `precision_macro`, `recall_macro`, `f1_macro`
 - Latest parent pipeline run id: `1c188e7b7a52428eb9cbd31789b513fe`
+- Added `requirements.txt` with pinned package versions for Docker builds.
+- Updated `requirements.txt` to include all required project dependencies (including `seaborn` and `dvc`).
+- Added Docker support files: `Dockerfile`, `docker-compose.yml`, and `.dockerignore`.
