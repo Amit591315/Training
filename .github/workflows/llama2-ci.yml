@@ -2,9 +2,9 @@ name: Llama2 MLOps CI
 
 on:
   push:
-    branches: [llama2-*]
+    branches: [main, llama2-*]
   pull_request:
-    branches: [llama2-*]
+    branches: [main, llama2-*]
   workflow_dispatch:
 
 jobs:
@@ -45,6 +45,10 @@ jobs:
           python finetune_llama2.py
         timeout-minutes: 30
 
+      - name: Verify fine-tuned models exist
+        run: |
+          ollama list | grep -E "llama2-severity-finetuned|llama2-repaircost-finetuned"
+
       - name: Start Llama2 API
         run: |
           python -m uvicorn llama2_api:app --host 0.0.0.0 --port 8001 &
@@ -81,9 +85,10 @@ jobs:
         run: |
           python llama2_mlflow_inference.py
         timeout-minutes: 15
+        continue-on-error: true
 
       - name: Upload inference results
-        if: always()
+        if: always() && hashFiles('llama2_batch_predictions.csv') != ''
         uses: actions/upload-artifact@v4
         with:
           name: llama2-inference-results

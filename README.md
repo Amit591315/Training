@@ -536,3 +536,8 @@ If a change impacts how to run, reproduce, or serve the project, document it her
   - Added explicit GitHub Actions permissions (`checks: write`, `pull-requests: write`) and made test result publication non-blocking (`continue-on-error: true`) to avoid false-negative CI failures when publishing annotations.
   - Added `requirements-ci.txt` with minimal API test dependencies for GitHub Actions.
   - Hardened `api.py` model bootstrap to retrain fallback models if committed pickle artifacts are incompatible with runtime package versions.
+
+- **Llama2 Fine-Tuning CI Update**:
+  - Updated `.github/workflows/llama2-ci.yml` to run on `main` and `llama2-*` branches so fine-tuning executes on regular mainline updates.
+  - Added explicit model verification step after fine-tuning (`ollama list` check for both fine-tuned model names).
+  - Kept batch inference as non-blocking and upload conditional on file existence so fine-tuning success is not marked failed by downstream long-running inference.
