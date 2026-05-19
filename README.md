@@ -265,6 +265,26 @@ For production deployments, use a production ASGI server:
 gunicorn -w 4 -k uvicorn.workers.UvicornWorker api:app
 ```
 
+## Ollama Quick Notes
+
+Ollama is installed locally in user space and can be used for local LLM inference.
+
+Quick start:
+
+```bash
+ollama serve
+ollama pull llama3.2:3b
+ollama run llama3.2:3b "Reply with exactly: OLLAMA_OK"
+```
+
+Health check:
+
+```bash
+curl -s http://127.0.0.1:11434/api/tags
+```
+
+Detailed install/run notes are in `OLLAMA_SETUP.md`.
+
 ### Test Results Summary
 
 **Last Test Run:** May 19, 2026
