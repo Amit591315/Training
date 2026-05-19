@@ -140,13 +140,18 @@ def _load_or_prepare_models() -> None:
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
     if COST_MODEL_PATH.exists() and SEV_MODEL_PATH.exists() and ENCODERS_PATH.exists():
-        with open(COST_MODEL_PATH, "rb") as f:
-            cost_model = pickle.load(f)
-        with open(SEV_MODEL_PATH, "rb") as f:
-            sev_model = pickle.load(f)
-        with open(ENCODERS_PATH, "rb") as f:
-            label_encoders = pickle.load(f)
-        return
+        try:
+            with open(COST_MODEL_PATH, "rb") as f:
+                cost_model = pickle.load(f)
+            with open(SEV_MODEL_PATH, "rb") as f:
+                sev_model = pickle.load(f)
+            with open(ENCODERS_PATH, "rb") as f:
+                label_encoders = pickle.load(f)
+            return
+        except Exception:
+            # If serialized artifacts are incompatible with runtime versions,
+            # retrain lightweight fallback models from the dataset.
+            pass
 
     cost_model, sev_model, label_encoders = _train_fallback_models()
 

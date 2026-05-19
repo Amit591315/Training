@@ -2,9 +2,10 @@ name: Llama2 MLOps CI
 
 on:
   push:
-    branches: [main, llama2-*]
+    branches: [llama2-*]
   pull_request:
-    branches: [main]
+    branches: [llama2-*]
+  workflow_dispatch:
 
 jobs:
   llama2-finetune-and-test:

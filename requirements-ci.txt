@@ -1,0 +1,8 @@
+# Minimal dependencies required for API unit tests in GitHub Actions
+fastapi
+pydantic
+numpy
+pandas
+scikit-learn
+pytest
+httpx
