@@ -521,3 +521,11 @@ If a change impacts how to run, reproduce, or serve the project, document it her
   - API endpoint testing (health, severity, cost predictions)
   - Batch inference and results upload
   - Docker image build validation
+
+- **GitHub Actions Fixes (Compatibility)**:
+  - Restored `api.py` as a classic sklearn-backed compatibility service so existing CI and tests using `api:app` continue to pass.
+  - Added automatic fallback model training in `api.py` when model artifacts are missing.
+  - Updated `.github/workflows/tests.yml` action versions to supported releases:
+    - `actions/checkout@v4`
+    - `actions/setup-python@v5`
+    - `actions/upload-artifact@v4`
