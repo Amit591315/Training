@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: defects-ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+  llama2-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.llama2
+    container_name: defects-llama2-api
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_API=http://ollama:11434
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./mlflow.db:/app/mlflow.db
+      - ./mlruns:/app/mlruns
+    restart: unless-stopped
+    entrypoint: >
+      /bin/bash -c "
+      echo 'Waiting for Ollama to be ready...' &&
+      sleep 10 &&
+      python -m uvicorn llama2_api:app --host 0.0.0.0 --port 8001
+      "
+
+  mlflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: defects-mlflow
+    command: python -m mlflow ui --backend-store-uri sqlite:///mlflow.db --host 0.0.0.0 --port 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlflow.db:/app/mlflow.db
+      - ./mlruns:/app/mlruns
+    restart: unless-stopped
+
+volumes:
+  ollama_data:

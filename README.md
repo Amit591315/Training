@@ -484,3 +484,40 @@ If a change impacts how to run, reproduce, or serve the project, document it her
 - Added `requirements.txt` with pinned package versions for Docker builds.
 - Updated `requirements.txt` to include all required project dependencies (including `seaborn` and `dvc`).
 - Added Docker support files: `Dockerfile`, `docker-compose.yml`, and `.dockerignore`.
+
+### 2026-05-19
+
+- **Llama2 Fine-tuning & API Migration**: Replaced pickle-based models with fine-tuned Llama2 models.
+  - Created `finetune_llama2.py` to fine-tune two Ollama-based models:
+    - `llama2-severity-finetuned`: Severity classification (Minor/Moderate/Critical)
+    - `llama2-repaircost-finetuned`: Repair cost regression (numeric estimation)
+  - Both models trained on 1000 defect samples from `defects_data.csv`
+  - Fine-tuning uses Ollama only (no HuggingFace API)
+  - Models logged to MLflow experiment: `llama2-finetune-defects`
+
+- **Llama2 FastAPI Service**: Updated API in `llama2_api.py` to serve fine-tuned models:
+  - `GET /health`: Health check with model status
+  - `POST /predict/severity`: Severity classification endpoint
+  - `POST /predict/cost`: Repair cost estimation endpoint
+  - `POST /batch-predict`: Batch predictions for multiple defects
+  - Inference latency and predictions logged to MLflow
+
+- **MLflow Inference Tracking**: Created `llama2_mlflow_inference.py` for:
+  - Logging individual predictions and latency metrics
+  - Batch inference performance evaluation (accuracy, RMSE, MAE)
+  - CSV export of batch predictions
+
+- **Docker Multi-Container Setup**:
+  - Created `Dockerfile.llama2` for Llama2 API container
+  - Created `docker-compose-llama2.yml` orchestrating:
+    - Ollama service (port 11434) with persistent volume
+    - Llama2 API service (port 8001)
+    - MLflow tracking UI (port 5000)
+  - Added `requirements-llama2.txt` with FastAPI, MLflow, DVC dependencies
+
+- **CI/CD Workflow**: Added `.github/workflows/llama2-ci.yml` with:
+  - Ollama setup and model pulling
+  - Llama2 fine-tuning on GH Actions runners
+  - API endpoint testing (health, severity, cost predictions)
+  - Batch inference and results upload
+  - Docker image build validation

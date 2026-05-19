@@ -2,6 +2,7 @@
 fastapi
 uvicorn
 pydantic
+httpx
 
 # Data and ML
 numpy
@@ -9,6 +10,9 @@ pandas
 scikit-learn
 matplotlib
 seaborn
+
+# LLM inference (Ollama client)
+# Note: requires Ollama to be running separately (ollama serve)
 
 # Experiment tracking
 mlflow
@@ -19,3 +23,12 @@ dvc
 # Testing
 pytest
 httpx
+
+# Fine-tuning (Llama-2 LoRA)
+transformers
+peft
+trl
+datasets
+torch
+accelerate
+bitsandbytes

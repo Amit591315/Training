@@ -1,0 +1,17 @@
+# FastAPI & uvicorn for API serving
+fastapi==0.136.1
+uvicorn==0.47.0
+pydantic==2.13.4
+
+# Data handling
+pandas==2.3.3
+numpy==2.4.5
+
+# Experiment tracking
+mlflow==3.12.0
+
+# HTTP client for Ollama
+requests==2.31.0
+
+# DVC for data versioning
+dvc==3.67.1

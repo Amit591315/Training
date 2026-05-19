@@ -1,0 +1,18 @@
+FROM python:3.13-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Copy requirements specific to Llama2
+COPY requirements-llama2.txt .
+RUN pip install --no-cache-dir -r requirements-llama2.txt
+
+# Copy Llama2 API files
+COPY llama2_api.py .
+COPY llama2_mlflow_inference.py .
+
+EXPOSE 8001
+
+CMD ["python", "-m", "uvicorn", "llama2_api:app", "--host", "0.0.0.0", "--port", "8001"]
