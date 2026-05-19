@@ -15,3 +15,7 @@ mlflow
 
 # Data versioning workflow
 dvc
+
+# Testing
+pytest
+httpx

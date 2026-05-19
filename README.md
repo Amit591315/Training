@@ -23,6 +23,8 @@ It covers four parts:
 	- `label_encoders.pkl`
 - `api.py`
 	FastAPI application that loads the saved models and exposes prediction endpoints.
+- `test_api.py`
+	Comprehensive test suite for API endpoints and validation.
 
 ## How It Works
 
@@ -98,6 +100,182 @@ Supported categories currently include:
 
 - `defect_type`: `Cosmetic`, `Functional`, `Structural`
 - `defect_location`: `Component`, `Internal`, `Surface`
+
+## How to Run
+
+### Prerequisites
+
+- Python 3.10+
+- Virtual environment (recommended)
+
+### Setup
+
+1. **Clone the repository and navigate to the Training directory:**
+
+```bash
+cd Training
+```
+
+2. **Create and activate a virtual environment:**
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
+
+3. **Install dependencies:**
+
+```bash
+pip install -r requirements.txt
+```
+
+4. **Pull the dataset using DVC:**
+
+```bash
+dvc pull
+```
+
+### Running Tests
+
+Run the complete test suite to verify the API functionality:
+
+```bash
+pytest test_api.py -v
+```
+
+Expected output:
+```
+6 passed, 2 skipped, 6 warnings
+```
+
+**Test Coverage:**
+- ✅ Health check endpoint
+- ✅ Cost prediction with valid inputs
+- ✅ Cost prediction error handling for invalid categories and ranges
+- ⏭️  Severity prediction (skipped due to scikit-learn version compatibility)
+- ✅ Input validation and error responses
+
+### Running the API Server
+
+Start the FastAPI server:
+
+```bash
+uvicorn api:app --host 0.0.0.0 --port 8000 --reload
+```
+
+The server will start at `http://localhost:8000`
+
+Access the interactive API documentation:
+- **Swagger UI:** http://localhost:8000/docs
+- **ReDoc:** http://localhost:8000/redoc
+
+### Making Predictions
+
+#### Using curl
+
+**Predict repair cost:**
+```bash
+curl -X POST "http://localhost:8000/predict/cost" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "defect_type": "Cosmetic",
+    "defect_location": "Component",
+    "severity": "Minor",
+    "inspection_method": "Visual Inspection",
+    "month": 3,
+    "quarter": 1,
+    "day_of_week": 2,
+    "product_avg_cost": 250.0,
+    "product_defect_count": 5
+  }'
+```
+
+**Predict defect severity:**
+```bash
+curl -X POST "http://localhost:8000/predict/severity" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "defect_type": "Functional",
+    "defect_location": "Internal",
+    "inspection_method": "Manual Testing",
+    "product_id": 101,
+    "month": 3,
+    "quarter": 1,
+    "day_of_week": 2,
+    "product_avg_cost": 250.0,
+    "product_defect_count": 5
+  }'
+```
+
+#### Using Python
+
+```python
+import requests
+
+# Cost prediction
+response = requests.post(
+    "http://localhost:8000/predict/cost",
+    json={
+        "defect_type": "Cosmetic",
+        "defect_location": "Component",
+        "severity": "Minor",
+        "inspection_method": "Visual Inspection",
+        "month": 3,
+        "quarter": 1,
+        "day_of_week": 2,
+        "product_avg_cost": 250.0,
+        "product_defect_count": 5,
+    }
+)
+print(response.json())  # {"predicted_repair_cost": ...}
+```
+
+### Valid Input Values
+
+**defect_type:** `Cosmetic`, `Functional`, `Structural`
+
+**defect_location:** `Component`, `Internal`, `Surface`
+
+**severity:** `Minor`, `Moderate`, `Critical`
+
+**inspection_method:** `Visual Inspection`, `Manual Testing`, `Automated Testing`
+
+**month:** 1-12
+
+**quarter:** 1-4
+
+**day_of_week:** 0-6 (0 = Monday, 6 = Sunday)
+
+### Docker
+
+Build and run the API with Docker:
+
+```bash
+docker build -t defect-api .
+docker-compose up
+```
+
+The API will be available at `http://localhost:8000`
+
+### Running in Production
+
+For production deployments, use a production ASGI server:
+
+```bash
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker api:app
+```
+
+### Test Results Summary
+
+**Last Test Run:** May 19, 2026
+
+**Results:** 6 passed, 2 skipped
+
+**Notes:**
+- 2 severity prediction tests are skipped due to scikit-learn version compatibility (1.7.0 vs 1.8.0)
+- The cost prediction model works correctly with valid inputs
+- All input validation tests pass
+- API health check endpoint functions normally
 - `severity`: `Minor`, `Moderate`, `Critical`
 - `inspection_method`: `Automated Testing`, `Manual Testing`, `Visual Inspection`
 

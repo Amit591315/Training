@@ -1,0 +1,43 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0 -- /usr/bin/python
+cachedir: .pytest_cache
+rootdir: /home/ahj5kor/samba/views/MLOps/Training
+plugins: anyio-4.11.0, hydra-core-1.3.2, Faker-40.18.0, langsmith-0.4.33, mock-3.6.1
+collecting ... collected 8 items
+
+test_api.py::TestHealthEndpoint::test_health_check_returns_ok_status PASSED [ 12%]
+test_api.py::TestHealthEndpoint::test_health_check_returns_model_types PASSED [ 25%]
+test_api.py::TestCostPredictionEndpoint::test_valid_cost_prediction PASSED [ 37%]
+test_api.py::TestCostPredictionEndpoint::test_cost_prediction_invalid_defect_type PASSED [ 50%]
+test_api.py::TestCostPredictionEndpoint::test_cost_prediction_invalid_month PASSED [ 62%]
+test_api.py::TestSeverityPredictionEndpoint::test_valid_severity_prediction SKIPPED [ 75%]
+test_api.py::TestSeverityPredictionEndpoint::test_severity_prediction_includes_probabilities SKIPPED [ 87%]
+test_api.py::TestSeverityPredictionEndpoint::test_severity_prediction_invalid_inspection_method PASSED [100%]
+
+=============================== warnings summary ===============================
+../../../../.local/lib/python3.10/site-packages/sklearn/base.py:440
+  /home/ahj5kor/.local/lib/python3.10/site-packages/sklearn/base.py:440: InconsistentVersionWarning: Trying to unpickle estimator LinearRegression from version 1.8.0 when using version 1.7.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+  https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+    warnings.warn(
+
+../../../../.local/lib/python3.10/site-packages/sklearn/base.py:440
+  /home/ahj5kor/.local/lib/python3.10/site-packages/sklearn/base.py:440: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.8.0 when using version 1.7.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+  https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+    warnings.warn(
+
+../../../../.local/lib/python3.10/site-packages/sklearn/base.py:440
+  /home/ahj5kor/.local/lib/python3.10/site-packages/sklearn/base.py:440: InconsistentVersionWarning: Trying to unpickle estimator LabelEncoder from version 1.8.0 when using version 1.7.0. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+  https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+    warnings.warn(
+
+test_api.py::TestCostPredictionEndpoint::test_valid_cost_prediction
+  /home/ahj5kor/.local/lib/python3.10/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LinearRegression was fitted with feature names
+    warnings.warn(
+
+test_api.py::TestSeverityPredictionEndpoint::test_valid_severity_prediction
+test_api.py::TestSeverityPredictionEndpoint::test_severity_prediction_includes_probabilities
+  /home/ahj5kor/.local/lib/python3.10/site-packages/sklearn/utils/validation.py:2749: UserWarning: X does not have valid feature names, but LogisticRegression was fitted with feature names
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+=================== 6 passed, 2 skipped, 6 warnings in 1.33s ===================
