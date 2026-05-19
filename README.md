@@ -533,5 +533,6 @@ If a change impacts how to run, reproduce, or serve the project, document it her
 - **CI Clean Fixes (Workflow Scope)**:
   - Updated `.github/workflows/llama2-ci.yml` to run only on `llama2-*` branches (plus manual `workflow_dispatch`) so regular `main` pushes are not blocked by long Llama2 jobs.
   - Updated `.github/workflows/tests.yml` with `fail-fast: false` for matrix visibility and switched dependency install to `requirements-ci.txt` for faster, more reliable test runs.
+  - Added explicit GitHub Actions permissions (`checks: write`, `pull-requests: write`) and made test result publication non-blocking (`continue-on-error: true`) to avoid false-negative CI failures when publishing annotations.
   - Added `requirements-ci.txt` with minimal API test dependencies for GitHub Actions.
   - Hardened `api.py` model bootstrap to retrain fallback models if committed pickle artifacts are incompatible with runtime package versions.
